@@ -10,7 +10,7 @@ class PlaySquare
     @value = 0
   end
 
-  def playTurn(play)
+  def play_turn(play)
     case play
     when 0
       @value = @position
@@ -21,22 +21,16 @@ class PlaySquare
     end
   end
 
-  def printBoard
+  def print_board
     " | | \n | | \n | | ".split('').to_a
   end
-
-  def gameStart(board)
-    gameSquares = PlaySquare.new(9)
-    roundStart = gets.chomp
-    case roundStart
-    when 0
-
-  end
 end
 
-def gameStart
+def game_start
   puts "Welcome to the classic tic tac toe\nIt's a two player game. You only need to type a valid number corresponding"
-  puts "to where you following this grid:"
+  puts 'to where you following this grid:'
   puts "1|2|3\n4|5|6\n7|8|9"
-  puts something = printBoard()
+  puts print_board
 end
+
+printf game_start
