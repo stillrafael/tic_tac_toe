@@ -1,36 +1,53 @@
-# frozen_string_literal = true
-
+# frozen_literal_string = true
 require 'pry-byebug'
 # creates a class to hold all the possible values from the game
-class PlaySquare
-  @@next_position = 0
-  def initialize
-    @position = @@next_position
-    @@next_position += 1
-    @value = 0
-  end
 
-  def play_turn(play)
-    case play
-    when 0
-      @value = @position
-    when 1
-      @value = 'X'
-    when 2
-      @value = 'O'
-    end
-  end
-
-  def print_board
-    " | | \n | | \n | | ".split('').to_a
-  end
+def print_board
+  " | | \n | | \n | | ".split('').to_a
 end
 
 def game_start
-  puts "Welcome to the classic tic tac toe\nIt's a two player game. You only need to type a valid number corresponding"
-  puts 'to where you following this grid:'
-  puts "1|2|3\n4|5|6\n7|8|9"
-  puts print_board
+  puts 'Welcome to Tic-Tac-Toe'
+  puts 'Input a number from 1 to 9 to select your square'
+  game_board = print_board
+  puts game_board.join
+  play_table = game_board.map.with_index { |square, index| square == ' ' ? index : next }.compact
+  round_start(game_board, play_table)
 end
 
-printf game_start
+def round_start(board, map)
+  player_one_turn = true
+  round_counter = []
+  game_end = false
+  while game_end == false
+    puts 'Type the square you would like to play'
+    player_move = gets.chomp
+    if round_counter.any?(player_move)
+      puts 'Invalid square'
+    else
+      round_counter << player_move
+      play_round(map, player_move, player_one_turn, board)
+      puts player_one_turn ? 'player one' : 'player two'
+      player_one_turn = !player_one_turn
+      puts board.join
+      game_end = win?(board)
+    end
+  end
+  puts 'game over'
+end
+
+def play_round(map, player_move, player, board)
+  calculate_player_square = player_move.to_i - 1
+  player_move_symbol = player ? 'X' : 'O'
+  board[map[calculate_player_square]] = player_move_symbol
+  board
+end
+
+def win?(board)
+  win_condition = [[0, 2, 4], [6, 8, 10], [12, 14, 16], [0, 6, 12], [2, 8, 14], [4, 10, 16], [0, 8, 12], [4, 8, 12]]
+  win_condition.any? do |win|
+    [board[win[0]], board[win[1]], board[win[2]]] == ['X', 'X', 'X']
+  end
+end
+
+game_start
