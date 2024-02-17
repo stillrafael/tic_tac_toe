@@ -46,7 +46,13 @@ end
 def win?(board)
   win_condition = [[0, 2, 4], [6, 8, 10], [12, 14, 16], [0, 6, 12], [2, 8, 14], [4, 10, 16], [0, 8, 12], [4, 8, 12]]
   win_condition.any? do |win|
-    [board[win[0]], board[win[1]], board[win[2]]] == ['X', 'X', 'X']
+    winning_position = [board[win[0]], board[win[1]], board[win[2]]]
+    case winning_position
+    when %w[O O O]
+      true
+    when %w[X X X]
+      true
+    end
   end
 end
 
